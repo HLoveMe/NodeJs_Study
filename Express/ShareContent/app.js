@@ -20,10 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 var Home = require("./routes/index")
 app.use('/', Home);
 
-var keyShare = require("./routes/keyShare")
+var keyShare = require("./routes/share/keyShare")
 app.use('/keyshare', keyShare);
 
-var fileShare = require("./routes/fileShare")
+var fileShare = require("./routes/share/fileShare")
 app.use('/fileshare', fileShare);
 
 // catch 404 and forward to error handler
