@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>朱子豪Share</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/home.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="keyshare">
+            <div class="title">keyShare</div>
+            <div class="part">
+                <div class="part_left">
+                    当前Key:
+                </div>
+                <div class="part_right">
+                    <input value="<%=keyword %>" type="text" id="currentkey"></input>
+                </div>
+            </div>
+            <div class="part">
+                <div class="part_left">
+                    输入:
+                </div>
+                <div class="part_right">
+                    <input value="" type="text" id="keyword"></input>
+                </div>
+            </div>
+            <div class="part ">
+                <div class="part_left ">
+                    上传:
+                </div>
+                <div class="part_right">
+                    <a class="button" id="keyUp">上传</a>
+                </div>
+            </div>
+        </div>
+        <div class="fileshare">
+            <div class="title">FileShare</div>
+            <form action="/fileshare" method="POST" enctype="multipart/form-data">
+                <div class="part">
+                    <div class="part_left">
+                        当前File:
+                    </div>
+                    <div class="part_right">
+                        <input value="<%=lastname %>" type="text" disabled></input>
+                    </div>
+                </div>
+                <div class="part ">
+                    <div class="part_left ">
+                        下载:
+                    </div>
+                    <div class="part_right">
+                        <a class="button">下载</a>
+                    </div>
+                </div>
+                <div class="part">
+                    <div class="part_left">
+                        输入:
+                    </div>
+                    <div class="part_right">
+                        <input value="xx" type="file" name="filename" id="filename"></input>
+                    </div>
+                </div>
+                <div class="part ">
+                    <div class="part_left ">
+                        上传:
+                    </div>
+                    <div class="part_right">
+                        <input class="button" value="上传" type="submit"></input>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</body>
+
+</html>

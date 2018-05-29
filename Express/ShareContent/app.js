@@ -11,13 +11,22 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', ejs.__express);
 app.set('view engine', 'html');
 
+//media 
+var fileDirpath = path.join(__dirname, "media")
+app.set("media", fileDirpath)
+    //base path
+app.set("base", __dirname)
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var Home = require("./routes/index")
+
+
+var Home = require("./routes/home")
 app.use('/', Home);
 
 var keyShare = require("./routes/share/keyShare")
