@@ -25,4 +25,21 @@ router.post("/", upload.single("filename"), function(req, res) {
     })
 })
 
+
+var download = express.Router()
+download.get("/down", function(req, res, next) {
+    var media = req.app.get("media");
+    var filep = path.join(media, "files");
+    var file = path.join(filep, req.query.filename)
+    if (fs.existsSync(file)) {
+        res.download(file, req.query.filename);
+    } else {
+        res.json({ status: 400, info: "没有文件" })
+    }
+
+})
+router.use(download)
+
+
+
 module.exports = router;
