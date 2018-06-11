@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+console.log("Server is up and running at port 3000111");
 require("reflect-metadata");
 const routing_controllers_1 = require("routing-controllers");
 const typedi_1 = require("typedi");

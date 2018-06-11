@@ -10,6 +10,7 @@ export class IndexPageConteroller{
     @Get("/index")
     @Render("index.html")
     index(){
+        console.log("[][][][]")
         return {name:"朱子豪",url:"https://www.github.com/HLoveMe",age:19}
     }
 }

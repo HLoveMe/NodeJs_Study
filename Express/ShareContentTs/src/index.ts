@@ -1,3 +1,4 @@
+console.log("Server is up and running at port 3000111");
 import "reflect-metadata";
 import {createExpressServer, useContainer, useExpressServer} from "routing-controllers";
 import {Container} from "typedi";
