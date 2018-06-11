@@ -9,13 +9,16 @@
 	* express AppName
 	* 删除所有文件除了package.json
 	* copy src文件夹到目录下
+	* copy FileCopy.js到目录下
+	
 * 修改package.json
 	
 	```
 	script:{
-		"start": "npm run build && node ./build/Index.js", 
-		//Index.js 对应你的src目录下的如何文件Index.ts
-		"build": "node_modules/.bin/tsc"
+		"start": "node FileCopy.js && npm run build && node ./build/index.js", 
+		"build": "node_modules/.bin/tsc",
+		//Index.js 对应你的src目录下的如何文件index.ts
+		//node FileCopy.js 复制静态文件到编译文件下
 	}
 	```
 
