@@ -86,6 +86,14 @@
 		    "ext": "ts js" //监听文件后缀
 		}
 		```
+	* Copy ReStart.js文件
+	* 修改scripts
+		
+		```
+		"scripts": {
+     		"run": "npm run build  && ./node_modules/.bin/nodemon ./ReStart.js"//增加
+     	}
+		```
 	* 启动
 		* npm run run 
 
