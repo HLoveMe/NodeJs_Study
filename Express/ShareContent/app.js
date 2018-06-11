@@ -14,7 +14,7 @@ app.set('view engine', 'html');
 //media 
 var fileDirpath = path.join(__dirname, "media")
 app.set("media", fileDirpath)
-    //base path
+//base path
 app.set("base", __dirname)
 
 

@@ -13,8 +13,10 @@
 
 * API	
 
-	```
-	Request
+	
+	* Request
+	
+		```
 		.app 指向express
 		.baseUrl
 		.body
@@ -39,72 +41,104 @@
 		
 		.get("header | Content-Type")获取头信息
 		.is()  对Content-Type进行匹配
-		
-	Response
+	```
 	
-	
-	var app =  express()
-		属性|方法
-			...
+	* Response
 		
-		
-		配置
-			app.set('views', path.join(__dirname, 'views'));视图位置
-			app.set('view engine', 'jade');模板渲染引擎
-		中间件			
-			app.use(logger('dev'));日志中间件
-			app.use(express.json());json中间件
-				// for parsing application/json
-			app.use(express.urlencoded({ extended: false }));
-				//for parsing application/x-www-form-urlencoded
-			//var multer = require('multer'); 
-			//app.use(multer()); 
-				// for parsing multipart/form-data
-			app.use(cookieParser()); cookies中间件
-			app.use(express.static(path.join(__dirname, 'public')));静态文件中间件
-		
-		
-		
-	var router = express.Router()
-		中间件 	所有请求必须经过这个中间件 再次调用next
-			.use(function(req,res,next){
-				...
-				next()
-			})
+		```
+		.locals 这个就是渲染html 数据源
+			res.locals.xx = oo
 			
-		方法处理
-			.all/get/post/delete
-			(str/reg/[str|reg],....handles)
-				.all(func(req,res,next){
-					//所有 请求方式 都会调用
+		响应
+			res.render("html_path")
+			res.redirect(301, "/");
+			res.json({ status: 400, error: e })
+		```
+	* Express
+	
+		```
+		var app =  express()
+			属性|方法
+				...
+			
+			
+			配置
+				app.set('views', path.join(__dirname, 'views'));视图位置
+				app.set('view engine', 'jade');模板渲染引擎
+			中间件			
+				app.use(logger('dev'));日志中间件
+				app.use(express.json());json中间件
+					// for parsing application/json
+				app.use(express.urlencoded({ extended: false }));
+					//for parsing application/x-www-form-urlencoded
+				//var multer = require('multer'); 
+				//app.use(multer()); 
+					// for parsing multipart/form-data
+				app.use(cookieParser()); cookies中间件
+				app.use(express.static(path.join(__dirname, 'public')));静态文件中间件
+				
+			
+		```
+		
+	* Router
+
+		```	
+		var router = express.Router()
+			中间件 	所有请求肯定经过这个中间件 再次调用next 调用之后的处理
+				.use(function(req,res,next){
+					...
 					next()
 				})
-				.get("path/reg",func(rq,rs,next){
-					//时间处理
-					next()
-				},func(rq,rs,next){
-					//参数处理数据库读取
-					next()
-				},[fun1,fun2],function(rq,res,next,xx){
-						res.end("hello")
-					//处理链接受 next不需要调用
-				})
-		参数
-		 router.param("id",func(req,res,next,id){
-		 	res.useid=id
-		 	next()
-		 })
-		 router.param("time",func(req,res,next, time){
-		 	res.time=time
-		 	next()
-		 })
-		 router.get("/news/:id/: time",func(req,res,next){
-		 	如果匹配会自动调用param声明的函数 并提取id
-		 })
+				
+			方法处理
+				.all/get/post/delete
+				(str/reg/[str|reg],....handles)
+					.all(func(req,res,next){
+						//所有 请求方式 都会调用
+						next()
+					})
+					.get("path/reg",func(rq,rs,next){
+						//时间处理
+						next()
+					},func(rq,rs,next){
+						//参数处理数据库读取
+						next()
+					},[fun1,fun2],function(rq,res,next,xx){
+							res.end("hello")
+						//处理链接受 next不需要调用
+					})
+			参数
+			 router.param("id",func(req,res,next,id){
+			 	res.useid=id
+			 	next()
+			 })
+			 router.param("time",func(req,res,next, time){
+			 	res.time=time
+			 	next()
+			 })
+			 router.get("/news/:id/: time",func(req,res,next){
+			 	如果匹配会自动调用param声明的函数 并提取id
+			 })
 	```		
+	
 * 中间件
 	*  app中间件
+	
+		```
+			app.use(logger('dev'))
+		```
 	*  一个请求的中间件
+
+		```
+		router.use(function(req,res,next){
+            ...中间件
+            next()
+       })
+       
+       router.params()
+       router.get()
+       .....
+		```
 	
 * 路由方式 （可以是字符串 字符串模式 正则表达式）
 	* 路由声明方式
@@ -125,6 +159,8 @@
 		
 			```
 			var router = express.Router()
+			
+			app.use("/url",router)
 			```
 		* router 一个路由不同方法
 	
