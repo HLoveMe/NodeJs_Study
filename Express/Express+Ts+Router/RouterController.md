@@ -6,3 +6,10 @@ Express 路由
 	* npm install reflect-metadata
 	* npm install express body-parser multer
 	* npm install @types/express @types/body-parser @types/multer
+
+	
+	
+	
+	
+	
+* typeorm-routing-controllers-extensions
