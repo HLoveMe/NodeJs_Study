@@ -9,7 +9,43 @@
 	* express myapp
 	* npm install
 	* Express 应用是基于分层实现
-
+	
+* 启动
+	* npm start
+	
+* 热启动
+	* npm install nodemon
+	* 创建 nodemon.json
+		
+		```
+		{
+		    "restartable": "rs",
+		    "ignore": [
+		        ".git",
+		        ".svn",
+		        "node_modules/**/node_modules"
+		    ],
+		    "verbose": true,
+		    "execMap": {
+		        "js": "node --harmony"
+		    },
+		    "watch": [
+		
+		    ],
+		    "env": {
+		        "NODE_ENV": "development"
+		    },
+		    "ext": "js json"
+		}
+		```
+	* 修改package.json
+		
+		```
+			"scripts":{
+				"run":"./node_modules/.bin/nodemon bin/www"//增加
+			}
+		```
+	* 运行  [npm run run]
 
 * API	
 
@@ -53,6 +89,7 @@
 			res.render("html_path")
 			res.redirect(301, "/");
 			res.json({ status: 400, error: e })
+			res.download(file, req.query.filename);
 		```
 	* Express
 	
