@@ -13,7 +13,6 @@ const routing_controllers_1 = require("routing-controllers");
 let IndexPageConteroller = class IndexPageConteroller {
     constructor() { }
     index() {
-        console.log("[][][][]");
         return { name: "朱子豪", url: "https://www.github.com/HLoveMe", age: 19 };
     }
 };

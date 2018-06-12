@@ -66,7 +66,7 @@
 
 
 * 热启动 
-	*  安装nodemon
+	*  安装nodemon 和 async
 	*  目录下生成nodemon.json
 		
 		```

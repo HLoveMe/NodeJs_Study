@@ -1,65 +1,182 @@
-
-var path = require('path');
-var fs = require( 'fs' ),
-    stat = fs.stat;
-/*
-05
- * 复制目录中的所有文件包括子目录
-06
- * @param{ String } 需要复制的目录
-07
- * @param{ String } 复制到指定的目录
-08
- */
-var copy = function( src, dst ){
-    // 读取目录中的所有文件/目录
-    fs.readdir( src, function( err, paths ){
-        if( err ){
-            throw err;
-        }
+var async = require("async");  
+var fs = require("fs");  
+var path = require("path");  
+// cursively make dir   
+function mkdirs(p, mode, f, made) {  
+    if (typeof mode === 'function' || mode === undefined) {  
+        f = mode;  
+        mode = 0777 & (~process.umask());  
+    }  
+    if (!made)  
+        made = null;  
   
-        paths.forEach(function( path ){
-            var _src = src + '/' + path,
-                _dst = dst + '/' + path,
-                readable, writable;      
+    var cb = f || function () {};  
+    if (typeof mode === 'string')  
+        mode = parseInt(mode, 8);  
+    p = path.resolve(p);  
   
-            stat( _src, function( err, st ){
-                if( err ){
-                    throw err;
-                }
+    fs.mkdir(p, mode, function (er) {  
+        if (!er) {  
+            made = made || p;  
+            return cb(null, made);  
+        }  
+        switch (er.code) {  
+        case 'ENOENT':  
+            mkdirs(path.dirname(p), mode, function (er, made) {  
+                if (er) {  
+                    cb(er, made);  
+                } else {  
+                    mkdirs(p, mode, cb, made);  
+                }  
+            });  
+            break;  
   
-                // 判断是否为文件
-                if( st.isFile() ){
-                    // 创建读取流
-                    readable = fs.createReadStream( _src );
-                    // 创建写入流
-                    writable = fs.createWriteStream( _dst ); 
-                    // 通过管道来传输流
-                    readable.pipe( writable );
-                }
-                // 如果是目录则递归调用自身
-                else if( st.isDirectory() ){
-                    exists( _src, _dst, copy );
-                }
-            });
-        });
-    });
-};
-// 在复制目录前需要判断该目录是否存在，不存在需要先创建目录
-var exists = function( src, dst, callback ){
-    fs.exists( dst, function( exists ){
-        // 已存在
-        if( exists ){
-            callback( src, dst );
-        }
-        // 不存在
-        else{
-            fs.mkdir( dst, function(){
-                callback( src, dst );
-            });
-        }
-    });
-};
+            // In the case of any other error, just see if there's a dir  
+            // there already.  If so, then hooray!  If not, then something  
+            // is borked.  
+        default:  
+            fs.stat(p, function (er2, stat) {  
+                // if the stat fails, then that's super weird.  
+                // let the original error be the failure reason.  
+                if (er2 || !stat.isDirectory()) {  
+                    cb(er, made);  
+                } else {  
+                    cb(null, made)  
+                };  
+            });  
+            break;  
+        }  
+    });  
+}  
+// single file copy  
+function copyFile(file, toDir, cb) {  
+    async.waterfall([  
+            function (callback) {  
+                fs.exists(toDir, function (exists) {  
+                    if (exists) {  
+                        callback(null, false);  
+                    } else {  
+                        callback(null, true);  
+                    }  
+                });  
+            }, function (need, callback) {  
+                if (need) {  
+                    mkdirs(path.dirname(toDir), callback);  
+                } else {  
+                    callback(null, true);  
+                }  
+            }, function (p, callback) {  
+                var reads = fs.createReadStream(file);  
+                var writes = fs.createWriteStream(path.join(path.dirname(toDir), path.basename(file)));  
+                reads.pipe(writes);  
+                //don't forget close the  when  all the data are read  
+                reads.on("end", function () {  
+                    writes.end();  
+                    callback(null);  
+                });  
+                reads.on("error", function (err) {  
+                    console.log("error occur in reads");  
+                    callback(true, err);  
+                });  
+  
+            }  
+        ], cb);  
+  
+}  
+  
+// cursively count the  files that need to be copied  
+  
+function _ccoutTask(from, to, cbw) {  
+    async.waterfall([  
+            function (callback) {  
+                fs.stat(from, callback);  
+            },  
+            function (stats, callback) {  
+                if (stats.isFile()) {  
+                    cbw.addFile(from, to);  
+                    callback(null, []);  
+                } else if (stats.isDirectory()) {  
+                    fs.readdir(from, callback);  
+                }  
+            },  
+            function (files, callback) {  
+                if (files.length) {  
+                    for (var i = 0; i < files.length; i++) {  
+                        _ccoutTask(path.join(from, files[i]), path.join(to, files[i]), cbw.increase());  
+                    }  
+                }  
+                callback(null);  
+            }  
+        ], cbw);  
+  
+}  
+// wrap the callback before counting  
+function ccoutTask(from, to, cb) {  
+    var files = [];  
+    var count = 1;  
+  
+    function wrapper(err) {  
+        count--;  
+        if (err || count <= 0) {  
+            cb(err, files)  
+        }  
+    }  
+    wrapper.increase = function () {  
+        count++;  
+        return wrapper;  
+    }  
+    wrapper.addFile = function (file, dir) {  
+        files.push({  
+            file : file,  
+            dir : dir  
+        });  
+    }  
+  
+    _ccoutTask(from, to, wrapper);  
+}  
+  
+  
+function copyDir(from, to, cb) {  
+    if(!cb){  
+      cb=function(){};  
+    }  
+    async.waterfall([  
+            function (callback) {  
+                fs.exists(from, function (exists) {  
+                    if (exists) {  
+                        callback(null, true);  
+                    } else {  
+                        console.log(from + " not exists");  
+                        callback(true);  
+                    }  
+                });  
+            },  
+            function (exists, callback) {  
+                fs.stat(from, callback);  
+            },  
+            function (stats, callback) {  
+                if (stats.isFile()) {  
+                    // one file copy  
+                    copyFile(from, to, function (err) {  
+                        if (err) {  
+                            // break the waterfall  
+                            callback(true);  
+                        } else {  
+                            callback(null, []);  
+                        }  
+                    });  
+                } else if (stats.isDirectory()) {  
+                    ccoutTask(from, to, callback);  
+                }  
+            },  
+            function (files, callback) {      
+                // prevent reaching to max file open limit            
+                async.mapLimit(files, 10, function (f, cb) {  
+                    copyFile(f.file, f.dir, cb);  
+                }, callback);  
+            }  
+        ], cb);  
+}  
 
 
 /****
@@ -88,6 +205,6 @@ for(var index in source){
         s_path = path.join(s_path,onepart[_index])
         t_path = path.join(t_path,onepart[_index])
     }
-    exists(s_path,t_path,copy)
+    copyDir(s_path,t_path)
     console.log(t_path)
 }
