@@ -154,5 +154,10 @@ Express 路由
 
 		```
 		```
+		
+		
+	* 参数验证
+
+	* 服务注入
 	
 * typeorm-routing-controllers-extensions
