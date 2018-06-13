@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {createExpressServer, useContainer, useExpressServer} from "routing-controllers";
 import {Container} from "typedi";
 
-import { IndexPageConteroller } from "./controllers/IndexPageConteroller";
+import { IndexPageConteroller,TestController } from "./controllers/IndexPageConteroller";
 import Server from "./App";
 /**
  * Setup routing-controllers to use typedi container.
@@ -11,7 +11,7 @@ useContainer(Container);
 
 const expressApp = useExpressServer(Server,{
         controllers: [
-            IndexPageConteroller,
+            IndexPageConteroller,TestController
         ],
 })
 

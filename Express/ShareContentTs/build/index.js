@@ -11,7 +11,7 @@ const App_1 = require("./App");
 routing_controllers_1.useContainer(typedi_1.Container);
 const expressApp = routing_controllers_1.useExpressServer(App_1.default, {
     controllers: [
-        IndexPageConteroller_1.IndexPageConteroller,
+        IndexPageConteroller_1.IndexPageConteroller, IndexPageConteroller_1.TestController
     ],
 });
 /**

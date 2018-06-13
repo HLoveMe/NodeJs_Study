@@ -29,4 +29,20 @@ IndexPageConteroller = __decorate([
     __metadata("design:paramtypes", [])
 ], IndexPageConteroller);
 exports.IndexPageConteroller = IndexPageConteroller;
+let TestController = class TestController {
+    test() {
+        console.log(111);
+        return { name: "呵呵2", age: "哪有直接问年龄的" };
+    }
+};
+__decorate([
+    routing_controllers_1.Get("/test"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TestController.prototype, "test", null);
+TestController = __decorate([
+    routing_controllers_1.Controller()
+], TestController);
+exports.TestController = TestController;
 //# sourceMappingURL=IndexPageConteroller.js.map
