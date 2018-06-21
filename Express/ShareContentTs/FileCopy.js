@@ -206,5 +206,5 @@ for(var index in source){
         t_path = path.join(t_path,onepart[_index])
     }
     copyDir(s_path,t_path)
-    console.log(t_path)
+    console.log(s_path,t_path)
 }

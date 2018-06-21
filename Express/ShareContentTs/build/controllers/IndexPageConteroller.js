@@ -13,15 +13,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const routing_controllers_1 = require("routing-controllers");
-const typedi_1 = require("typedi");
-let UserManager = class UserManager {
-    print() {
-        console.log("78945678657866946445454");
-    }
-};
-UserManager = __decorate([
-    typedi_1.Service()
-], UserManager);
 let IndexPageConteroller = class IndexPageConteroller {
     constructor() { }
     index(pars) {
@@ -31,6 +22,7 @@ let IndexPageConteroller = class IndexPageConteroller {
 __decorate([
     routing_controllers_1.Get("/"),
     routing_controllers_1.Get("/index"),
+    routing_controllers_1.Authorized(),
     routing_controllers_1.Render("index.html"),
     __param(0, routing_controllers_1.QueryParams()),
     __metadata("design:type", Function),
@@ -42,25 +34,4 @@ IndexPageConteroller = __decorate([
     __metadata("design:paramtypes", [])
 ], IndexPageConteroller);
 exports.IndexPageConteroller = IndexPageConteroller;
-let TestController = class TestController {
-    constructor(userM) {
-        this.userM = userM;
-    }
-    test() {
-        console.log(111, this.userM.print());
-        return { name: "呵呵2", age: "8286" };
-    }
-};
-__decorate([
-    routing_controllers_1.Get("/test"),
-    routing_controllers_1.Redirect("/index?aaa=11&age=:age"),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], TestController.prototype, "test", null);
-TestController = __decorate([
-    routing_controllers_1.Controller(),
-    __metadata("design:paramtypes", [UserManager])
-], TestController);
-exports.TestController = TestController;
 //# sourceMappingURL=IndexPageConteroller.js.map
