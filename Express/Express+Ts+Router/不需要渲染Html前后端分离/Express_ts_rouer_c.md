@@ -48,7 +48,7 @@
 	
 * 安装第三方库
 	* npm install -save typescript
-	* npm install -save @types/node
+	* npm install --save-dev @types/node
 	* 安装Router-controller
 		* npm install -save typedi
 		* npm install -save routing-controllers

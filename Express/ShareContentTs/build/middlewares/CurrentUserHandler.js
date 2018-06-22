@@ -6,19 +6,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const routing_controllers_1 = require("routing-controllers");
-let CurrentUserAuthorHandle = class CurrentUserAuthorHandle {
-    error(error, request, response, next) {
+var routing_controllers_1 = require("routing-controllers");
+var CurrentUserAuthorHandle = /** @class */ (function () {
+    function CurrentUserAuthorHandle() {
+    }
+    CurrentUserAuthorHandle.prototype.error = function (error, request, response, next) {
         if (error.name == "AuthorizationRequiredError") {
             response.redirect(301, "/login");
         }
         else {
             next(error);
         }
-    }
-};
-CurrentUserAuthorHandle = __decorate([
-    routing_controllers_1.Middleware({ type: "after" })
-], CurrentUserAuthorHandle);
+    };
+    CurrentUserAuthorHandle = __decorate([
+        routing_controllers_1.Middleware({ type: "after" })
+    ], CurrentUserAuthorHandle);
+    return CurrentUserAuthorHandle;
+}());
 exports.default = CurrentUserAuthorHandle;
 //# sourceMappingURL=CurrentUserHandler.js.map

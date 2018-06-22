@@ -51,7 +51,7 @@
 	
 * 安装第三方库
 	* npm install -save typescript
-	* npm install -save @types/node
+	* npm install --save-dev @types/node
 	* npm install -save ejs  //html处理
 	* 安装Router-controller
 		* npm install -save typedi

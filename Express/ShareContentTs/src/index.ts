@@ -1,8 +1,10 @@
 import "reflect-metadata";
 import {createExpressServer, useContainer, useExpressServer,Action} from "routing-controllers";
 import {Container} from "typedi";
-
+import DataBaseManager from "./tools/DataBaseManager";
+import {Connection,EntityManager,Repository} from "typeorm";
 import Server from "./App";
+import UserInfo from "./models/User";
 /**
  * Setup routing-controllers to use typedi container.
  */
@@ -19,7 +21,9 @@ const expressApp = useExpressServer(Server,{
             return false
         },
         currentUserChecker:(action: Action)=>{
-            return null;
+            return DataBaseManager.operation((connect:Connection)=>{
+                return connect.getRepository(UserInfo).findOne({token:action.request.headers["authorization"]});
+            })
         },
         defaults: {
             nullResultCode: 404,

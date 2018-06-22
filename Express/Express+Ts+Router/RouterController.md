@@ -515,4 +515,3 @@ Express 路由
 			}
 		```
 	
-* typeorm-routing-controllers-extensions

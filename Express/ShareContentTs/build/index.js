@@ -1,25 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-const routing_controllers_1 = require("routing-controllers");
-const typedi_1 = require("typedi");
-const App_1 = require("./App");
+var routing_controllers_1 = require("routing-controllers");
+var typedi_1 = require("typedi");
+var DataBaseManager_1 = require("./tools/DataBaseManager");
+var App_1 = require("./App");
+var User_1 = require("./models/User");
 /**
  * Setup routing-controllers to use typedi container.
  */
 routing_controllers_1.useContainer(typedi_1.Container);
-const expressApp = routing_controllers_1.useExpressServer(App_1.default, {
+var expressApp = routing_controllers_1.useExpressServer(App_1.default, {
     controllers: [__dirname + "/controllers/*.js"],
     middlewares: [__dirname + "/middlewares/*.js"],
     defaultErrorHandler: false,
     classTransformer: true,
-    authorizationChecker: (action, roles) => {
-        let authorization = action.request.headers["authorization"];
+    authorizationChecker: function (action, roles) {
+        var authorization = action.request.headers["authorization"];
         console.log("查询数据库");
         return false;
     },
-    currentUserChecker: (action) => {
-        return null;
+    currentUserChecker: function (action) {
+        return DataBaseManager_1.default.operation(function (connect) {
+            return connect.getRepository(User_1.default).findOne({ token: action.request.headers["authorization"] });
+        });
     },
     defaults: {
         nullResultCode: 404,
