@@ -490,7 +490,21 @@ Express 路由
 			
 		}
 	```
-	* 服务注入
+	* Custom 自定义修饰符
+
+		```
+	import {createParamDecorator} from "routing-controllers";
+	export function UserFromSession(options?: { required?: boolean }) {
+	    return createParamDecorator({
+	        required: options && options.required ? true : false,
+	        value: action => {
+	            const token = action.request.headers["authorization"];
+	            return database.findUserByToken(token);
+	        }
+	    });
+	}
+	```
+	* 服务注入 注入器
 
 		```
 			npm install typedi 

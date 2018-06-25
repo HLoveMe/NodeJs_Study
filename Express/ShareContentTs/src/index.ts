@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {createExpressServer, useContainer, useExpressServer,Action} from "routing-controllers";
-import {Container} from "typedi";
+import {Container, Token} from "typedi";
 import DataBaseManager from "./tools/DataBaseManager";
 import {Connection,EntityManager,Repository} from "typeorm";
 import Server from "./App";
@@ -15,15 +15,22 @@ const expressApp = useExpressServer(Server,{
         middlewares: [__dirname + "/middlewares/*.js"],
         defaultErrorHandler: false,
         classTransformer:true,
-        authorizationChecker:(action: Action, roles: string[])=>{
-            let authorization = action.request.headers["authorization"];
-            console.log("查询数据库")
-            return false
-        },
-        currentUserChecker:(action: Action)=>{
-            return DataBaseManager.operation((connect:Connection)=>{
-                return connect.getRepository(UserInfo).findOne({token:action.request.headers["authorization"]});
+        authorizationChecker:async (action: Action, roles: string[])=>{
+            let authorization = action.request.headers["authorization"] || action.request.cookies["token"];
+            if(null == authorization){return false;}
+            let user = await DataBaseManager.operation((conn:Connection)=>{
+                return conn.getRepository(UserInfo).findOne({token:authorization})
             })
+            console.log("查询数据库",user)
+            return user != null;
+        },
+        currentUserChecker:async (action: Action)=>{
+            let authorization = action.request.headers["authorization"] || action.request.cookies["token"];
+            if(null == authorization){return null;}
+            let user = await DataBaseManager.operation((connect:Connection)=>{
+                return connect.getRepository(UserInfo).findOne({token:authorization});
+            })
+            return user.isLost  ? null : user
         },
         defaults: {
             nullResultCode: 404,
