@@ -5,26 +5,22 @@ import { Connection } from "typeorm";
 import UUID from "../tools/UUID";
 @Controller()
 export default class UserController{
+    static options = {componey:"HLoveMe",tel:"17688938286",name:"(>^ω^<)喵,扇贝公司"}
     @Get("/login")
     @Post("/login")
     @Render("user/login.html")
     @OnNull(405)
-    async login(@Req() request:any,@Res() response:any,@CurrentUser() user:UserInfo,@QueryParam("reason") reason:String){
+    async login(@Req() request:any,@Res() response:any,@Body() user:any,@QueryParam("reason") reason:String){
         if(request.method == "GET"){
-            return {componey:"HLoveMe",tel:"17688938286",system:"(>^ω^<)喵,扇贝公司",reason}
+            return {...UserController.options,reason}
         }else if(request.method == "POST"){
             let _user = await UserInfo.Authorization(user)
             if(_user == null){
-                response.redirect(301,"/login?reason=账号或密码错误")
+                response.redirect("/login?reason=账号或密码错误",UserController.options)
             }else{
-                await DataBaseManager.operation((conn:Connection)=>{
-                    _user.last_date = new Date()
-                    _user.lose_date = new Date(new Date().getTime()+24*60*60*1000)
-                    return conn.getRepository(UserInfo).save(_user)
-                })
-                console.log(request)
-                return undefined
-
+                _user = await _user.Login()
+                response.cookie("token",_user.token)
+                response.redirect("/")
             }
         }else{
             return null

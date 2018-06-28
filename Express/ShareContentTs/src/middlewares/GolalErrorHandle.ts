@@ -4,7 +4,7 @@ import ErrorCode from "../errors/ErrorCode";
 
 
 @Middleware({ type: "after" })
-export default class CurrentUserAuthorHandle implements ExpressErrorMiddlewareInterface {
+export default class GolalErrorHandle implements ExpressErrorMiddlewareInterface {
     error(error: HttpError, request: any, response: any, next: (err: any) => any) {
         console.log("处理全局错误 CurrentUserAuthorHandle",error)
         if(error.name == "AuthorizationRequiredError"){

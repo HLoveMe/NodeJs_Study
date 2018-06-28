@@ -1,6 +1,7 @@
 
 import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn,BeforeInsert, Connection,AfterLoad} from "typeorm";
 import DataBaseManager from "../tools/DataBaseManager";
+import * as crypto from "crypto";
 
 @Entity("User")
 export default class UserInfo{
@@ -28,18 +29,27 @@ export default class UserInfo{
     lose_date:Date
 
     //{user}验证
+    /*** 
+     * name:oo
+     * password:xx
+    */
     static Authorization(param):Promise<UserInfo>{
+        console.log("123123",param,UserAuthentication.encrypt(param["password"]))
         return DataBaseManager.operation<UserInfo>((conn:Connection)=>{
             return new Promise((resolve, reject) => {
-                conn.getRepository(UserInfo).findOne({name:param["name"]}).then((user)=>{
-                    if("__NULL__"+param["password"]+"__NULL__"  == user.password){
-                        resolve(user)
-                    }else{
-                        resolve(null)
-                    }
+                conn.getRepository(UserInfo).findOne({name:param["username"],password:UserAuthentication.encrypt(param["password"])}).then((user)=>{
+                    resolve(user)
                 })
             })
             
+        })
+    }
+    //执行登入
+    async Login(){
+        return await DataBaseManager.operation((conn:Connection)=>{
+            this.last_date = new Date()
+            this.lose_date = new Date(new Date().getTime()+24*60*60*1000)
+            return conn.getRepository(UserInfo).save(this)
         })
     }
     //密码 和 确认密码验证
@@ -54,10 +64,24 @@ export default class UserInfo{
     @BeforeInsert()
     insertBefore(){
         //简单的密码加密
-        this.password = "__NULL__"+this.password+"__NULL__"
+        this.password = UserAuthentication.encrypt(this.password)
     }
     @AfterLoad()
     AfterLoad(){
         this.password = null;
+    }
+}
+
+
+class UserAuthentication{
+    static encrypt(str:string){
+        let hash = crypto.createHash("sha1")
+        str = UserAuthentication.salt(str)
+        hash.update(str)
+        return hash.digest("hex")
+    }  
+    protected static salt(str:string):string{
+        //简单的加盐处理
+        return str[str.length -1] + str
     }
 }

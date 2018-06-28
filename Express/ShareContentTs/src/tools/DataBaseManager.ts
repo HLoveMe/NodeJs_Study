@@ -24,11 +24,9 @@ class _DataBaseManager{
             },()=>{resolve(null)}).catch(()=>{resolve(null)})
         })
     }
-    transaction(handle:(manager:EntityManager)=>Boolean){
-        this._connect.transaction((entityManager: EntityManager)=>{
-            return new Promise((resolve, reject) => {
-                resolve(handle(entityManager))
-            })
+    transaction(handle:(manager:EntityManager)=>Promise<any>):Promise<any>{
+        return this._connect.transaction((entityManager: EntityManager)=>{
+            return handle(entityManager)
         }).catch((err)=>{console.log("事务运行报错",err)})
     }
 }
