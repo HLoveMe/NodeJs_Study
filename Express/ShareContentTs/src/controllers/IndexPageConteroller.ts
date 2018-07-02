@@ -13,7 +13,7 @@ export class IndexPageConteroller{
     @Render("index.html")
     //index(@QueryParams() pars:any,@CurrentUser() user:UserInfo)
     index(@Req() request:Request,@FindUSerOrFail() user:UserInfo){
-        return {name:"朱子豪",url:"https://www.github.com/HLoveMe",age:19,user:request["_user"]}
+        return {name:"朱子豪",url:"https://www.github.com/HLoveMe",age:19}
     }
 }
 

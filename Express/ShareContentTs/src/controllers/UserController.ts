@@ -59,4 +59,9 @@ export default class UserController{
             return null
         }
     }
+    @Get("/noUser")
+    @Render("user/noUser.html")
+    noUser(){
+        return {}
+    }
 }

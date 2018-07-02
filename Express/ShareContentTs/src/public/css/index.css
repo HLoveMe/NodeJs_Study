@@ -1,0 +1,42 @@
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+.header{
+    height:60px;
+    background: #24383A;
+    width: 100%;
+}
+.container{
+    flex-direction:row;
+    display:flex;
+    flex:1;
+}
+.part{
+
+}
+.part_left{
+    width:100px
+}
+.part_right{
+    flex:1;
+}
+.container .menu_ul{
+    background-color:greenyellow
+}
+
+.container .menu_li{
+    display: inline;
+    text-align: center
+}
+.container .menu_li a{
+    display: block;
+    padding: 20px 0px;
+    /* color: white; */
+    text-decoration : none;
+}
+iframe{
+    height: 100%;
+    width: 100%
+}
