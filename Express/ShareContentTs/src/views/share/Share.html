@@ -12,8 +12,8 @@
     <script src="/javascripts/share.js"></script>
 </head>
 
-<body>
-    <div class="container">
+<div id="body">
+    <div class="share_container">
         <div class="keyshare">
             <div class="title">keyShare</div>
             <div class="part">
@@ -41,15 +41,16 @@
                 </div>
             </div>
         </div>
+        
         <div class="fileshare">
             <div class="title">FileShare</div>
-            <form action="/fileshare" method="POST" enctype="multipart/form-data">
+            <form action="#" method="POST" enctype="multipart/form-data" id="form">
                 <div class="part">
                     <div class="part_left">
                         当前File:
                     </div>
                     <div class="part_right">
-                        <input value="<%=lastname %>" type="text" disabled></input>
+                        <input value="<%=lastname %>" type="text" disabled id="lastfile"></input>
                     </div>
                 </div>
                 <div class="part ">
@@ -57,7 +58,7 @@
                         下载:
                     </div>
                     <div class="part_right">
-                        <a class="button" href="/fileshare/down?filename=<%=lastname %>">下载</a>
+                        <a class="button" href="/share/down?filename=<%=lastname %>&id=<%=last_id%>" id="filedown">下载</a>
                     </div>
                 </div>
                 <div class="part">
@@ -73,12 +74,12 @@
                         上传:
                     </div>
                     <div class="part_right">
-                        <input class="button" value="上传" type="submit"></input>
+                        <input class="sumbit button" value="上传" type="submit" ></input>
                     </div>
                 </div>
         </div>
         </form>
     </div>
-</body>
+</div>
 
 </html>

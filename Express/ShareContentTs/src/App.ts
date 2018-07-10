@@ -15,4 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//
+app.set("base", __dirname)
+var keyDirpath = path.join(__dirname, "media")
+app.set("media", keyDirpath)
+var fileDir = path.join(keyDirpath,"files")
+app.set("filePath",fileDir)
+
 export default app;

@@ -1,10 +1,10 @@
-body {
+#body {
     height: 100%;
     width: 100%;
     position: relative;
 }
 
-.container {
+.share_container {
     margin: auto;
     position: absolute;
     top: 0;
@@ -18,25 +18,25 @@ body {
     flex-direction: column;
 }
 
-.keyshare {
+.share_container .keyshare {
     flex: 1;
 }
 
-.fileshare {
+.share_container .fileshare {
     flex: 1;
 }
 
-.title {
+.share_container .title {
     text-align: center;
 }
 
-.part {
+.share_container .part {
     display: flex;
     padding-top: 30px;
     height: 30px;
 }
 
-.part .part_left {
+.share_container .part .part_left {
     flex: 1;
     text-align: right;
     padding-right: 10px;
@@ -45,31 +45,26 @@ body {
     min-width: 90px;
 }
 
-.part .part_right {
+.share_container .part .part_right {
     flex: 2;
     height: 30px;
 }
 
-.part .part_right input {
+.share_container .part .part_right input {
     border: 1px solid #f5f5f5
 }
 
-.part .part_right input,
-a {
+.share_container .part .part_right input,a {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.part .button {
+.share_container .part .button {
     display: block;
     padding: 4px;
     background-color: green;
     width: 50px;
     border-radius: 10px;
     text-align: center;
-}
-
-.AA {
-    background-color: yellow
 }

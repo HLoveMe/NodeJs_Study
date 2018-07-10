@@ -15,7 +15,7 @@ class _DataBaseManager{
             ]
         } as ConnectionOptions).then((connect)=>{
             this._connect = connect
-        }).catch((err)=>{console.log("创建数据库连接错误")})
+        }).catch((err)=>{console.log("创建数据库连接错误",err)})
     }
     operation<T>(handle:(connect:Connection)=>T|Promise<T>):Promise<T>{
         return new Promise((resolve, reject) => {
