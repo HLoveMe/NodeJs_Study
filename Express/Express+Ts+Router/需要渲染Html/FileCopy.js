@@ -185,8 +185,10 @@ function copyDir(from, to, cb) {
  *  target 目标路径 和你tsconfig.json 对应
  */
 source = [
+    ["media"],
     ["public"],
     ["views"],
+    
 ]
 src = "src"
 taregt = "build"

@@ -20,7 +20,7 @@ document.ready = function () {
                     contentType: false,
                     success: function (result) {
                         $("#lastfile").val(result.lastname)
-                        $("#filedown").attr("href",`/share/down?filename=${result.lastname}&id=${result.last_id}`)
+                        $("#filedown").attr("href",`/share/download?filename=${result.lastname}&id=${result.last_id}`)
                     },
                 });
                 e.preventDefault();

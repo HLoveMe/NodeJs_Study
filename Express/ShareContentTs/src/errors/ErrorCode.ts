@@ -1,7 +1,8 @@
 import { HttpError } from "routing-controllers";
 
 export default {
-    NoUserCode:500
+    NoUserCode:500,
+    DownloadFilePath:600,
 }
 
 export class BaseHttpError extends HttpError{

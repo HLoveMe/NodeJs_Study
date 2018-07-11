@@ -1,4 +1,4 @@
-import {Get,Controller,Post, Render,Req,Res,BodyParam,QueryParam,UploadedFile,ContentType,OnNull} from "routing-controllers";
+nameimport {Get,Controller,Post, Render,Req,Res,BodyParam,QueryParam,UploadedFile,ContentType,OnNull} from "routing-controllers";
 import { FindUSerOrFail } from "../decorators/FindUSerOrFail";
 import UserInfo from "../models/User";
 import * as path from "path";

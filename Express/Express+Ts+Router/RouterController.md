@@ -147,7 +147,7 @@ Express 路由
 
 		```
 		import {
-			QueryParam,      request.query
+			QueryParam,      request.query   ?name=xx&age=18
 			QueryParams,		request.query.xxx
 			HeaderParam,		request.headers.xx
 			HeaderParams,    request.headers
@@ -347,6 +347,7 @@ Express 路由
 		    test(){
 		        console.log(111)
 		        return {name:"呵呵2",age:"哪有直接问年龄的"}
+		        
 		    }
 			```
 		* 设置响应头 
