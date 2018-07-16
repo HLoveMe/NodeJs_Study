@@ -1,4 +1,4 @@
-import {Get,Controller,Post, Render,Req,Res,BodyParam,QueryParam,UploadedFile,ContentType,OnNull} from "routing-controllers";
+import {Get,Controller,Post, Render,Req,Res,BodyParam,QueryParam,UploadedFile,ContentType,OnNull, UseAfter, Redirect} from "routing-controllers";
 import { FindUSerOrFail } from "../decorators/FindUSerOrFail";
 import UserInfo from "../models/User";
 import * as path from "path";
@@ -9,6 +9,8 @@ import DataBaseManager from "../tools/DataBaseManager";
 import { Connection } from "typeorm";
 import fileUploadOptions from "../tools/FileShareOptions";
 import ErrorCode,{ BaseHttpError } from "../errors/ErrorCode";
+import FileDownTask from "../errors/FileDownTask";
+import FileDownloadHandle from "../middlewares/FileDownloadHandle";
 
 @Controller("/share")
 export default class ContentShareController{
@@ -62,20 +64,16 @@ export default class ContentShareController{
     }
 
     @Get("/download")
-    @OnNull(ErrorCode.DownloadFilePath)
-    async fileDownload(@Req() request:any,@Res() response:any,@QueryParam("filename") name:string,@QueryParam("id") id:number){
+    async fileDownload(@FindUSerOrFail("/noUser") user:UserInfo,@Req() request:any,@Res() response:any,@QueryParam("filename") name:string){
         let file = await DataBaseManager.operation((connect:Connection)=>{
-            return connect.getRepository(FileShareModel).findOne({name:name,id:id})
+            return connect.getRepository(FileShareModel).findOne({name:name,uid:user.id})
         }) || {path:"dome.txt",name:"dome.txt"}
         let _path = request.app.get("filePath")
         _path = path.join(_path,file.path)
         if(fs.existsSync(_path)){
-            console.log(11111,_path,file.name)
-            response.download(_path,file.name)
-            // response.redirect(301)
-
+            return response.redirect(`/filedown/down/${file.path}/${file.name}`)
         }else{
-            return null
+            return response.json({status:404,reason:"文件不存在"})
         }
     }
 }

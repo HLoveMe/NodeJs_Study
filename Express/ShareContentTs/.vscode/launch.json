@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "webRoot": "${workspaceFolder}/build/index.js",
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "启动 Chrome 并打开 localhost",

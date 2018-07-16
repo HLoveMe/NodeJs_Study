@@ -12,7 +12,11 @@ export default class GolalErrorHandle implements ExpressErrorMiddlewareInterface
             response.redirect(301,error.param || "/login")
         }else if(error.httpCode == ErrorCode.NoUserCode){
             response.redirect(301,error.param || "/login")
-        }else{
+        }else if(error.httpCode == ErrorCode.FileDownTask){
+            const {path,name} = error.param
+            console.log("下载",path,name)
+            response.download(path,name)
+        } else{
             next(error);
         }
         

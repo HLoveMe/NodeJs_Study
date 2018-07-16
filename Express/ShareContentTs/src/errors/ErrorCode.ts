@@ -3,6 +3,7 @@ import { HttpError } from "routing-controllers";
 export default {
     NoUserCode:500,
     DownloadFilePath:600,
+    FileDownTask:601
 }
 
 export class BaseHttpError extends HttpError{

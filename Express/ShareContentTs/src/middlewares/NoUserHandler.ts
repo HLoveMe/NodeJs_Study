@@ -9,6 +9,7 @@ import HTTPNoUserError from "../errors/HTTPNoUserError";
 
 export default class NoUSerHandler implements ExpressMiddlewareInterface { // interface implementation is optional
     use(request: any, response: any, next?: (err?: any) => any): any {
+        console.log(1231212123123123)
         let authorization = request.headers["authorization"] || request.cookies["token"];
         if(null == authorization){ next(new HTTPNoUserError("未匹配到用户"));}
         DataBaseManager.operation((connect:Connection)=>{

@@ -14,6 +14,7 @@ export function FindUSerOrFail(path:string = "/login",options?: { required?: boo
             let user = await DataBaseManager.operation((connect:Connection)=>{
                 return connect.getRepository(UserInfo).findOne({token:authorization});
             })
+            console.log(user,100000)
             if(null == user){ throw new HTTPNoUserError("authorization or token 没有找到User",path);}
             if(user.isLost){ throw new HTTPNoUserError("User 失效",path);}
             return user
