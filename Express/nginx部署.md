@@ -35,6 +35,9 @@
 	```
 	增加配置文件到ngnix
         sudo ln -s ....share_nginx.conf  /etc/nginx/sites-enabled/
+        
+        || 
+        放在 /etc/nginx/conf.d/下
 
     重启nginx
     
@@ -48,7 +51,7 @@
     	路径和之前保持不变
 				> 上传配置
 				> 不需要 cd /etc/nginx/sites-enabled/ ;删除配置
-				> 不需要 sudo ln -s ~/Django/MuOnlie/conf/online_nginx.conf /etc/nginx/sites-enabled/
+				> 不需要 增加配置文件到ngnix
 				> 重启
 		路径改变
 			执行上面四步
@@ -127,7 +130,7 @@
 	nginx
 		/etc/init.d/nginx start;启动
 		sudo /etc/init.d/nginx restart;重启
-		sudo nginx -t检查配置是否正确
+		sudo nginx -t 检查配置是否正确
 		
 		关闭
 		ps -ef | grep nginx
