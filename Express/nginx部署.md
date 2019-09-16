@@ -34,10 +34,11 @@
 	
 	```
 	增加配置文件到ngnix
-        sudo ln -s ....share_nginx.conf  /etc/nginx/sites-enabled/
+        sudo ln -s ....share_nginx.conf【后缀不限定】  /etc/nginx/sites-enabled/
         
         || 
-        放在 /etc/nginx/conf.d/下
+        
+        放在 /etc/nginx/conf.d/下 文件.conf 后缀
 
     重启nginx
     
@@ -130,9 +131,14 @@
 	nginx
 		/etc/init.d/nginx start;启动
 		sudo /etc/init.d/nginx restart;重启
+			1.	重启服务： service nginx restart
+			2. 快速停止或关闭Nginx：nginx -s stop
+			3. 正常停止或关闭Nginx：nginx -s quit
+			4. 配置文件修改重装载命令：nginx -s reload
 		sudo nginx -t 检查配置是否正确
 		
+		
 		关闭
-		ps -ef | grep nginx
+		ps -ef | grep nginx 查看进程
 		kill -QUIT pid
 	```
