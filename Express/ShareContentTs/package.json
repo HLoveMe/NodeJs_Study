@@ -14,7 +14,7 @@
       "async": "^2.6.1",
       "body-parser": "^1.18.3",
       "class-transformer": "^0.1.9",
-      "class-validator": "^0.8.5",
+      "class-validator": "^0.14.0",
       "cookie-parser": "~1.4.3",
       "debug": "~2.6.9",
       "ejs": "^2.6.1",
